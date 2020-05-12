@@ -47,8 +47,8 @@ namespace WebCamApp1
             //MessageBox.Show(capture.FrameHeight.ToString());
             if (capture.IsOpened())
             {
-                capture.FrameWidth = 1280;
-                capture.FrameHeight = 720;
+                capture.FrameWidth = 1528;
+                capture.FrameHeight = 1080;
                 capture.AutoFocus = true;
                 
                while (isCameraRunning)
@@ -71,33 +71,11 @@ namespace WebCamApp1
             InitializeComponent();
             source.DataSource = pages;
             dataGridView1.DataSource = source;
-
-
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            capture = new VideoCapture(0);
-            capture.Open(0);
-            if (button1.Text.Equals("Start"))
-            {
-                CaptureCamera();
-                button1.Text = "Stop";
-                isCameraRunning = true;
-            }
-            else
-            {
-                camera.Abort();
-                capture.Release();
-                button1.Text = "Start";
-                isCameraRunning = false;
-            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TakePhoto();
+            
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -111,26 +89,7 @@ namespace WebCamApp1
         }
 
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-        private void button3_Click(object sender, EventArgs e)
-        {
-            isCameraRunning = true;
-            myTimer.Tick += new EventHandler(OnTimedEvent);
-            myTimer.Interval = 3000;
-            
-            if( myTimer.Enabled)
-            {
-                myTimer.Stop();
-                myTimer.Dispose();
-                button3.Text = "Start";
-            }
-            else
-            {
-                //camera.Abort ();
-                myTimer.Start();
-                button3.Text = "Stop";
-                
-            }
-        }
+
 
         private void OnTimedEvent(Object myObject, EventArgs myEventArgs)
         {            
@@ -145,6 +104,7 @@ namespace WebCamApp1
             if (isCameraRunning)
             {
                 frame = new Mat();
+
                 capture.Read(frame);
 
                 
@@ -221,22 +181,62 @@ namespace WebCamApp1
             MessageBox.Show(name1);
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            GetPDF();
-        }
-
-        private void button2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void button2_KeyDown(object sender, KeyEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 TakePhoto();
             }
+        }
+
+        private void StartButton1_Click(object sender, EventArgs e)
+        {
+            capture = new VideoCapture(0);
+            capture.Open(0);
+            if (StartButton1.Text.Equals("Start"))
+            {
+                CaptureCamera();
+                StartButton1.Text = "Stop";
+                isCameraRunning = true;
+            }
+            else
+            {
+                camera.Abort();
+                capture.Release();
+                StartButton1.Text = "Start";
+                isCameraRunning = false;
+            }
+        }
+
+        private void PhotoButton2_Click(object sender, EventArgs e)
+        {
+            TakePhoto();
+        }
+
+        private void GoButton3_Click(object sender, EventArgs e)
+        {
+            isCameraRunning = true;
+            myTimer.Tick += new EventHandler(OnTimedEvent);
+            myTimer.Interval = 3000;
+
+            if (myTimer.Enabled)
+            {
+                myTimer.Stop();
+                myTimer.Dispose();
+                GoButton3.Text = "Start";
+            }
+            else
+            {
+                //camera.Abort ();
+                myTimer.Start();
+                GoButton3.Text = "Stop";
+
+            }
+        }
+
+        private void GetPDFButton4_Click(object sender, EventArgs e)
+        {
+            GetPDF();
         }
     }
 
